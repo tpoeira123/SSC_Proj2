@@ -1,0 +1,23 @@
+# Secure Stream Server + Secure Proxy in two containers.
+#   docker compose up --build                    -> configs/aes-gcm
+#   CONFIG=chacha20-poly1305 docker compose up   -> any folder in configs/ (no rebuild needed)
+# Then open http://localhost:8080/
+services:
+  server:
+    build: .
+    image: ssc-3s
+    volumes:
+      - ./configs:/configs:ro
+      - ./streamserver/media:/media:ro
+    command: ["java", "-cp", "/app/server:/app/lib/bcprov-jdk18on-1.86.jar", "OriginSocketServer",
+              "8081", "/media", "/configs/${CONFIG:-aes-gcm}/servercrypto.config"]
+
+  proxy:
+    image: ssc-3s
+    depends_on: [server]
+    volumes:
+      - ./configs:/configs:ro
+    ports:
+      - "8080:8080"
+    command: ["java", "-cp", "/app/proxy:/app/lib/bcprov-jdk18on-1.86.jar", "ProxySocketServer",
+              "8080", "server", "8081", "/configs/${CONFIG:-aes-gcm}/proxycrypto.config"]
