@@ -1,5 +1,5 @@
 # Keep keys and media out of the image: they are mounted at run time
-configs/
+../SSC_Proj1/configs/
 streamserver/media/
 **/*.config
 **/*.class

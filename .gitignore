@@ -1,4 +1,5 @@
-../SSC_Proj1/.idea/
+.idea/
 *.class
 out/
-SSC_Proj1.iml
+*.iml
+
