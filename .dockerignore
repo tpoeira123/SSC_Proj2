@@ -1,0 +1,11 @@
+# Keep keys and media out of the image: they are mounted at run time
+configs/
+streamserver/media/
+**/*.config
+**/*.class
+out/
+.git/
+.idea/
+docs/
+tests/
+*.pdf
